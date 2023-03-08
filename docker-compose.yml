@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      - sample_db
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://sample_db:5432/product_db
+      - SPRING_DATASOURCE_USERNAME=
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  sample_db:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=
+      - POSTGRES_DB=products
+      - POSTGRES_PORT=5432
+    volumes:
+      - sample_db:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+
+volumes:
+  sample_db:
